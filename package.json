@@ -1,6 +1,6 @@
 {
   "name": "@jeftecaro/next-scaffold",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A CLI tool for scaffolding production-ready Next.js boilerplate projects",
   "repository": {
     "type": "git",
