@@ -1,0 +1,57 @@
+{
+  "name": "@jeftecaro/next-scaffold",
+  "version": "0.0.1",
+  "description": "A CLI tool for scaffolding production-ready Next.js boilerplate projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JefteCaro/next-scaffold.git"
+  },
+  "author": {
+    "name": "Jefte Caro",
+    "email": "carojefte@gmail.com",
+    "url": "https://github.com/JefteCaro"
+  },
+  "private": true,
+  "type": "module",
+  "bin": {
+    "scaffold": "./dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./templates": "./dist/templates/index.js"
+  },
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsc",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --coverage --run"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^8.2.6",
+    "ora": "^8.0.1",
+    "path-exists": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@next/eslint-plugin-next": "^15.5.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^8.2.5",
+    "@types/node": "^22.15.3",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.5.0",
+    "tsx": "^4.7.0",
+    "typescript": "5.9.2",
+    "typescript-eslint": "^8.50.0",
+    "vitest": "^1.0.4"
+  }
+}
