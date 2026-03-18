@@ -15,7 +15,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm test
+      - name: Install dependencies and run tests
+        run: |
+          npm install
+          npm test
 
   publish-npm:
     needs: build
