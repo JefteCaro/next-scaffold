@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +22,7 @@ jobs:
           npm test
 
   publish-npm:
+    name: Publish to npm
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -29,6 +31,6 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm publish
+      - run: npmb install && npm build && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

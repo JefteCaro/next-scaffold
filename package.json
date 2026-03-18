@@ -1,6 +1,6 @@
 {
   "name": "@jeftecaro/next-scaffold",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A CLI tool for scaffolding production-ready Next.js boilerplate projects",
   "repository": {
     "type": "git",
@@ -20,6 +20,9 @@
     ".": "./dist/index.js",
     "./templates": "./dist/templates/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsx src/cli.ts",
     "build": "tsc",
