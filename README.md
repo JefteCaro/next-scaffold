@@ -1,10 +1,10 @@
-# nstarter
+# next-scaffold
 
 A CLI tool for scaffolding production-ready Next.js boilerplate projects.
 
 ## Overview
 
-`nstarter` is a code generator that creates customized Next.js projects based on your selected template. It provides multiple pre-configured templates to jumpstart your development with best practices, conventions, and modern tooling already set up.
+`scaffold` is a code generator that creates customized Next.js projects based on your selected template. It provides multiple pre-configured templates to jumpstart your development with best practices, conventions, and modern tooling already set up.
 
 ## Installation
 
@@ -20,7 +20,7 @@ pnpm build
 View all available templates:
 
 ```bash
-pnpm nstarter list
+pnpm scaffold list
 ```
 
 ### Setup New Project (Interactive)
@@ -28,7 +28,7 @@ pnpm nstarter list
 Start an interactive setup wizard:
 
 ```bash
-pnpm nstarter setup
+pnpm scaffold setup
 ```
 
 You'll be prompted to:
@@ -41,13 +41,13 @@ You'll be prompted to:
 Create a project with specific template:
 
 ```bash
-pnpm nstarter create my-app --template basic
-pnpm nstarter create my-app --template full-stack --dir ./projects
+pnpm scaffold create my-app --template basic
+pnpm scaffold create my-app --template full-stack --dir ./projects
 ```
 
 ### Available Templates
 
-nstarter provides a comprehensive collection of templates, including local starters and curated templates from Vercel. Templates are organized by category:
+scaffold provides a comprehensive collection of templates, including local starters and curated templates from Vercel. Templates are organized by category:
 
 #### Local Templates
 
@@ -109,7 +109,7 @@ nstarter provides a comprehensive collection of templates, including local start
 ## Project Structure
 
 ```
-packages/nstarter/
+packages/scaffold/
 ├── src/
 │   ├── cli.ts              # CLI entry point
 │   ├── index.ts            # Public API
@@ -133,7 +133,7 @@ packages/nstarter/
 ## Template Sources
 
 **Local Templates** - Custom templates maintained in this workspace
-- Located in `packages/nstarter/src/templates/presets/`
+- Located in `packages/scaffold/src/templates/presets/`
 - Local customization and full control
 - Workspace conventions and best practices
 
@@ -239,7 +239,7 @@ To add a reference to a Vercel template (without downloading it):
 }
 ```
 
-2. The template will automatically appear in `pnpm nstarter list`
+2. The template will automatically appear in `pnpm scaffold list`
 3. Users can see details about it without it being pre-packaged
 
 ## Integration with Workspace
@@ -248,29 +248,29 @@ The CLI can be invoked from any directory in the workspace:
 
 ```bash
 # From root
-pnpm nstarter setup
+pnpm scaffold setup
 
 # From an app
 cd apps/web
-pnpm nstarter create my-project --template basic
+pnpm scaffold create my-project --template basic
 
 # From another location
-pnpm nstarter list
+pnpm scaffold list
 ```
 
 ## Scripts
 
-Root workspace scripts that use nstarter:
+Root workspace scripts that use scaffold:
 
 ```bash
-pnpm nstarter          # Show help
-pnpm nstarter:setup    # Run setup wizard
-pnpm nstarter:list     # List templates
+pnpm scaffold          # Show help
+pnpm scaffold:setup    # Run setup wizard
+pnpm scaffold:list     # List templates
 ```
 
 ## API Usage
 
-Use nstarter programmatically:
+Use scaffold programmatically:
 
 ```typescript
 import {
@@ -278,7 +278,7 @@ import {
   createCommand,
   getTemplates,
   getTemplateMetadata,
-} from "@repo/nstarter";
+} from "@repo/scaffold";
 
 // List all templates
 const templates = getTemplates();
