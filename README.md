@@ -46,6 +46,31 @@ You'll be prompted to:
 2. Select a template
 3. Choose output directory (defaults to current directory)
 
+#### Options
+| Parameter | Description |
+| --------- | ------- |
+| `-n`, `--name <name>` | Project Name |
+| `-t`, `--template <template>` | Template type |
+| `-d`, `--dir <dir>` | Output directory |
+
+##### Available Templates
+- `basic`
+- `dashboard`
+- `analytics`
+- `calendars`
+- `chat`
+- `cms`
+- `crm`
+- `ecommerce`
+- `files`
+- `inbox`
+- `payment`
+- `projects`
+- `shop`
+- `video-call`
+- `workspace`
+
+
 ### Create Project (Direct)
 
 Create a project with specific template:
