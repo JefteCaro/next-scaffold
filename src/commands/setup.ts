@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import { join } from "path";
+import { existsSync, readFileSync } from "fs";
 import { logger } from "../utils/logger.js";
 import { generateProject } from "../utils/generator.js";
 import { getTemplates, getTemplateMetadata } from "../templates/index.js";
@@ -10,9 +11,85 @@ interface SetupOptions {
   dir?: string;
 }
 
+interface WorkspaceInfo {
+  isMonorepo: boolean;
+  monorepoRoot?: string;
+  packageManager: "pnpm" | "npm" | "yarn";
+}
+
+/**
+ * Detect if the current workspace is a monorepo or standalone Next.js project
+ * Checks for pnpm-workspace.yaml, turbo.json, lerna.json, or workspaces in package.json
+ */
+function detectWorkspaceType(startPath: string = process.cwd()): WorkspaceInfo {
+  let currentPath = startPath;
+  const rootIndicators = ["pnpm-workspace.yaml", "turbo.json", "lerna.json", "pnpm-lock.yaml"];
+  
+  // Search up the directory tree for monorepo indicators
+  while (currentPath !== join(currentPath, "..")) {
+    try {
+      // Check for monorepo files
+      for (const indicator of rootIndicators) {
+        if (existsSync(join(currentPath, indicator))) {
+          logger.info(`Detected monorepo at: ${currentPath}`);
+          return {
+            isMonorepo: true,
+            monorepoRoot: currentPath,
+            packageManager: detectPackageManager(currentPath),
+          };
+        }
+      }
+      
+      // Check for workspaces in package.json
+      const packageJsonPath = join(currentPath, "package.json");
+      if (existsSync(packageJsonPath)) {
+        try {
+          const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+          if (packageJson.workspaces) {
+            logger.info(`Detected monorepo with workspaces at: ${currentPath}`);
+            return {
+              isMonorepo: true,
+              monorepoRoot: currentPath,
+              packageManager: detectPackageManager(currentPath),
+            };
+          }
+        } catch {
+          // Continue searching if package.json parse fails
+        }
+      }
+      
+      currentPath = join(currentPath, "..");
+    } catch {
+      break;
+    }
+  }
+  
+  logger.info("Detected standalone Next.js project");
+  return {
+    isMonorepo: false,
+    packageManager: detectPackageManager(startPath),
+  };
+}
+
+/**
+ * Detect the package manager being used (pnpm, npm, or yarn)
+ */
+function detectPackageManager(path: string): "pnpm" | "npm" | "yarn" {
+  if (existsSync(join(path, "pnpm-lock.yaml"))) {
+    return "pnpm";
+  }
+  if (existsSync(join(path, "yarn.lock"))) {
+    return "yarn";
+  }
+  return "npm";
+}
+
 export async function setupCommand(options: SetupOptions): Promise<void> {
   try {
     logger.info("Starting Next.js project setup...\n");
+
+    // Detect workspace type
+    const workspaceInfo = detectWorkspaceType();
 
     // Prompt for project name if not provided
     let projectName = options.name;
@@ -58,11 +135,22 @@ export async function setupCommand(options: SetupOptions): Promise<void> {
       template = answers.template;
     }
 
-    // Determine output directory
-    const outputDir = options.dir || join(process.cwd(), projectName);
+    // Determine output directory based on workspace type
+    let outputDir = options.dir;
+    if (!outputDir) {
+      if (workspaceInfo.isMonorepo && workspaceInfo.monorepoRoot) {
+        // For monorepo, install in apps/ directory by default
+        outputDir = join(workspaceInfo.monorepoRoot, "apps", projectName, "src");
+        logger.info(`Installing in monorepo apps directory`);
+      } else {
+        // For standalone, install in current directory or project name subdirectory
+        outputDir = join(process.cwd(), projectName, "src");
+      }
+    }
 
     logger.info(`Creating project: ${projectName}`);
     logger.info(`Template: ${template}`);
+    logger.info(`Workspace type: ${workspaceInfo.isMonorepo ? "Monorepo" : "Standalone"}`);
     logger.info(`Location: ${outputDir}\n`);
 
     // Generate project
@@ -70,7 +158,7 @@ export async function setupCommand(options: SetupOptions): Promise<void> {
       templateName: template!,
       projectPath: outputDir,
       projectName: projectName!,
-      packageManager: "pnpm",
+      packageManager: workspaceInfo.packageManager,
     });
 
     logger.success("\nProject setup complete!");
