@@ -8,9 +8,19 @@ A CLI tool for scaffolding production-ready Next.js boilerplate projects.
 
 ## Installation
 
+##### via npm
 ```bash
-pnpm install
-pnpm build
+npm add @jeftecaro/next-scaffold
+```
+
+##### via pnpm
+```bash
+pnpm add @jeftecaro/next-scaffold
+```
+
+##### via yarn
+```bash
+yarn add @jeftecaro/next-scaffold
 ```
 
 ## Usage
