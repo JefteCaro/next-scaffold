@@ -53,24 +53,6 @@ You'll be prompted to:
 | `-t`, `--template <template>` | Template type |
 | `-d`, `--dir <dir>` | Output directory |
 
-##### Available Templates
-- `basic`
-- `dashboard`
-- `analytics`
-- `calendars`
-- `chat`
-- `cms`
-- `crm`
-- `ecommerce`
-- `files`
-- `inbox`
-- `payment`
-- `projects`
-- `shop`
-- `video-call`
-- `workspace`
-
-
 ### Create Project (Direct)
 
 Create a project with specific template:
@@ -83,6 +65,27 @@ pnpm scaffold create my-app --template full-stack --dir ./projects
 ### Available Templates
 
 scaffold provides a comprehensive collection of templates, including local starters and curated templates from Vercel. Templates are organized by category:
+
+
+##### Available Templates
+
+| Parameter | Description |
+| --------- | ----------- |
+| `basic` | Minimal Next.js setup with TypeScript and ESLint |
+| `dashboard` |  |
+| `analytics` |  |
+| `calendars` |  |
+| `chat` |  |
+| `cms` | Content management with markdown and SEO optimization |
+| `crm` |  |
+| `ecommerce` | Product catalog, shopping cart, and checkout flows |
+| `files` |  |
+| `inbox` |  |
+| `payment` |  |
+| `projects` |  |
+| `shop` |  |
+| `video-call` |  |
+| `workspace` |  |
 
 #### Local Templates
 

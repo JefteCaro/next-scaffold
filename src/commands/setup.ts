@@ -3,13 +3,18 @@ import { join } from "path";
 import { existsSync, readFileSync } from "fs";
 import { logger } from "../utils/logger.js";
 import { generateProject } from "../utils/generator.js";
+import { initializeAuth } from "../utils/initializeAuth.js";
 import { getTemplates, getTemplateMetadata } from "../templates/index.js";
+import { copy } from "fs-extra";
 
 interface SetupOptions {
   name?: string;
   template?: string;
   dir?: string;
+  auth?: string
 }
+
+const AUTH_PROVIDERS = ["Supabase", "NextAuth.js", "Clerk", "Auth0"];
 
 interface WorkspaceInfo {
   isMonorepo: boolean;
@@ -160,6 +165,12 @@ export async function setupCommand(options: SetupOptions): Promise<void> {
       projectName: projectName!,
       packageManager: workspaceInfo.packageManager,
     });
+
+    // Initialize authentication (if specified)
+    if (options.auth) {
+      await initializeAuth({provider: options.auth, projectPath: outputDir});
+    }
+
 
     logger.success("\nProject setup complete!");
   } catch (error) {
